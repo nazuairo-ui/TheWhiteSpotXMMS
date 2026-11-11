@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event MMS x The White Spot Book Talk</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Geist:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="canvas-texture"></div>
+    <div class="vignette-overlay"></div>
+
+    <header class="navbar">
+        <div class="brand">
+            <!-- ini kasih logo mms aja <span class="brand-monogram">ن</span> -->
+            <span class="brand-handle">@event.mms</span>
+        </div>
+
+        <nav class="nav-links">
+            <a href="/about">about</a>
+            <span class="nav-sep">/</span>
+            <a href="/sessions">sessions</a>
+            <span class="nav-sep">/</span>
+            <a href="/speakers">speakers</a>
+            <span class="nav-sep">/</span>
+            <a href="/itinerary">itinerary</a>
+        </nav>
+
+        <div class="nav-actions">
+            <button type="button" class="btn-workspace" id="btnOpenModal">reserve seat</button>
+        </div>
+    </header>
+
+    <main class="hero-container">
+
+        <section class="card-display-section">
+            <h2 class="display-title title-left">Ketika Aku</h2>
+            <div class="card-overlap-wrapper">
+                <span class="overlay-word">Marah</span>
+                <div class="card-stack" id="cardStack" title="Klik foto untuk mengganti">
+                    <div class="card" data-idx="0">
+                        <img src="{{ url_for('static', filename='foto1.jpg') }}" alt="Foto 1">
+                    </div>
+                    <div class="card" data-idx="1">
+                        <img src="{{ url_for('static', filename='foto2.jpg') }}" alt="Foto 2">
+                    </div>
+                    <div class="card" data-idx="2">
+                        <img src="{{ url_for('static', filename='foto3.jpg') }}" alt="Foto 3">
+                    </div>
+                </div>
+            </div>
+            <h2 class="display-title title-right"><em>pada Takdir</em></h2>
+        </section>
+
+        <div class="hero-headline">
+            The White Spot X Event MMS
+        </div>
+
+        <div class="slogan-text">
+            <p class="line">we gather, we uncover purpose, we craft</p>
+
+        </div>
+
+    </main>
+
+    <div class="modal-backdrop" id="ticketModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div>
+                    <span class="modal-badge">Registration Open</span>
+                    <h2 class="modal-title">Seat <em>Reservation</em></h2>
+                </div>
+                <button type="button" class="btn-close-modal" id="btnCloseModal">×</button>
+            </div>
+
+            <form id="registrationForm" method="POST" action="/api/register">
+                <div class="form-grid">
+
+                    <div class="form-group full-width">
+                        <label for="fullName">Nama Lengkap</label>
+                        <input type="text" id="fullName" name="full_name" placeholder="cth. Nabila Syahrani" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Alamat Email</label>
+                        <input type="email" id="email" name="email" placeholder="nama@email.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="whatsapp">No. WhatsApp</label>
+                        <input type="tel" id="whatsapp" name="whatsapp" placeholder="08xxxxxxxxxx" required>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="profession">Institusi / Peran Saat Ini</label>
+                        <input type="text" id="profession" name="profession"
+                            placeholder="cth. Mahasiswa UI / Product Designer" required>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Pilihan Tiket</label>
+                        <div class="tier-selector">
+                            <label class="tier-card active">
+                                <input type="radio" name="ticket_tier" value="fellowship" checked>
+                                <div class="tier-info">
+                                    <span class="tier-name">Fellowship Pass</span>
+                                    <span class="tier-desc">Akses seminar utama + curated booklet</span>
+                                </div>
+                                <span class="tier-price">Rp 175.000</span>
+                            </label>
+
+                            <label class="tier-card">
+                                <input type="radio" name="ticket_tier" value="patron">
+                                <div class="tier-info">
+                                    <span class="tier-name">Patron & Networking</span>
+                                    <span class="tier-desc">Termasuk VIP roundtable + dinner session</span>
+                                </div>
+                                <span class="tier-price">Rp 350.000</span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-footer">
+                    <p class="privacy-note">Konfirmasi & QR tiket otomatis diterbitkan ke email Anda.</p>
+                    <button type="submit" class="btn-submit" id="btnSubmitForm">Lanjutkan Pemesanan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+
+        const modal = document.getElementById('ticketModal');
+        const openBtn = document.getElementById('btnOpenModal');
+        const closeBtn = document.getElementById('btnCloseModal');
+        const tierCards = document.querySelectorAll('.tier-card');
+
+        openBtn.addEventListener('click', () => modal.classList.add('active'));
+        closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.classList.remove('active');
+        });
+
+        tierCards.forEach(card => {
+            card.addEventListener('click', () => {
+                tierCards.forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+            });
+        });
+    </script>
+
+    <script>
+        const stack = document.getElementById('cardStack');
+        const cards = Array.from(stack.querySelectorAll('.card'));
+        let positions = [0, 1, 2];
+
+        function applyCardClasses() {
+            cards.forEach((card, i) => {
+                card.classList.remove('pos-0', 'pos-1', 'pos-2', 'is-shifting');
+                card.classList.add(`pos-${positions[i]}`);
+            });
+        }
+
+        applyCardClasses();
+
+        stack.addEventListener('click', () => {
+            const frontCard = cards[positions.indexOf(0)];
+            if (frontCard) {
+                frontCard.classList.add('is-shifting');
+            }
+
+            setTimeout(() => {
+                positions = positions.map(p => (p + 1) % cards.length);
+                applyCardClasses();
+            }, 220);
+        });
+    </script>
+</body>
+
+</html>
