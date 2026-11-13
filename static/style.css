@@ -284,23 +284,19 @@ main {
 }
 
 .event-badge {
+    font-family: var(--font-sans);
     display: inline-block;
-    font-size: 0.74rem;
+    font-size: 1rem;
     letter-spacing: 0.16em;
-    text-transform: uppercase;
     color: var(--text-white);
     padding: 0.38rem 1.1rem;
-    border: 1px solid var(--line-strong);
-    border-radius: 999px;
-    margin-bottom: 1.5rem;
-    background: rgba(15, 41, 31, 0.35);
-    backdrop-filter: blur(4px);
+    margin-bottom: 1rem;
 }
 
 .hero-quote {
     font-family: var(--font-serif);
     font-size: clamp(1.38rem, 2.4vw, 1.88rem);
-    font-weight: 400;
+    font-weight: 300;
     line-height: 1.48;
     color: var(--text-white);
     margin-bottom: 2.4rem;
@@ -312,7 +308,7 @@ main {
 
 .hero-actions {
     display: flex;
-    justify-content: center;
+    justify-content: center !important;
     align-items: center;
     gap: 1.15rem;
     flex-wrap: wrap;
@@ -1357,12 +1353,20 @@ main {
 
     .minimal-bar-btn {
         max-width: 100%;
+        text-align: center !important;
+        font-family: var(--font-sans);
+        width: fit-content;
+        padding: 0.75rem 1.15rem;
     }
 }
 
 @media (max-width: 640px) {
     .hero-actions {
-        flex-direction: column;
+        flex-direction: row;
+        text-align: center !important;
+        width: fit-content;
+        align-items: center !important;
+        justify-content: center;
     }
 
     .register-card {
