@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}About the Event — The White Reflection{% endblock %}
+
+{% block content %}
+<section class="about-hero">
+    <p class="about-eyebrow reveal">
+        The White Spot × Madrasah Mar'ah Shalihah (MMS)
+    </p>
+
+    <div class="split-showcase reveal delay-1">
+        <div class="showcase-word-left">Let's Find</div>
+
+        <div class="tilted-frame">
+            <div class="tilted-frame-inner">
+                <span class="book-label">Bedah Buku Utama</span>
+                <h3 class="book-title">“Ketika Aku Marah pada Takdir”</h3>
+                <p class="book-author">Karya Annisa Nafiya</p>
+                <div class="book-divider"></div>
+            </div>
+        </div>
+
+        <div class="showcase-word-right">Serenity</div>
+    </div>
+
+    <p class="about-lead reveal delay-2">
+        Di tengah dunia yang bergerak cepat, mari berhenti sejenak untuk berdamai dengan ketetapan-Nya dan menemukan
+        makna di balik setiap ujian.
+    </p>
+</section>
+
+<section class="details-container">
+    <div class="stacked-heading reveal">
+        <span class="serif-top">The White Reflection</span>
+        <span class="script-bottom">Event Details</span>
+    </div>
+
+    <div class="info-grid reveal delay-1">
+        <div class="info-box">
+            <div class="label">Pemateri</div>
+            <div class="value">Ustadzah Jasmine Al Zahrah</div>
+            <div class="sub">Alumni STDI Imam Syafi'i Jember</div>
+        </div>
+
+        <div class="info-box">
+            <div class="label">Hari & Tanggal</div>
+            <div class="value">Sabtu, 28 November 2026</div>
+            <div class="sub">Pukul 10.00 – 11.30 WIB</div>
+        </div>
+
+        <div class="info-box">
+            <div class="label">Lokasi Acara</div>
+            <div class="value">Menara 165</div>
+            <div class="sub">Hall Andalusia 3, Jakarta Selatan</div>
+        </div>
+
+        <div class="info-box">
+            <div class="label">Penyelenggara</div>
+            <div class="value">The White Spot × MMS</div>
+            <div class="sub">Madrasah Mar'ah Shalihah</div>
+        </div>
+    </div>
+
+    <div class="stacked-heading spaced-top reveal">
+        <span class="serif-top">Ticket Selection</span>
+        <span class="script-bottom">Packages</span>
+    </div>
+
+    <div class="info-grid two-cols reveal delay-1">
+        <div class="info-box ticket-box">
+            <div class="label">Paket A</div>
+            <div class="value large-price">Normal — Rp 30.000</div>
+            <p class="sub spaced-bottom">
+                Tiket kehadiran seminar & bedah buku reguler di Hall Andalusia 3.
+            </p>
+            <a href="/daftar?paket=Normal" class="minimal-bar-btn full-width">
+                <span>Daftar Paket Normal</span>
+                <span class="arrow-circle">→</span>
+            </a>
+        </div>
+
+        <div class="info-box ticket-box-special">
+            <div class="label">Paket B</div>
+            <div class="value large-price">Special — Rp 100.000</div>
+            <p class="sub spaced-bottom">
+                Tiket kehadiran spesial acara <em>The White Reflection</em>.
+            </p>
+            <a href="/daftar?paket=Special" class="minimal-bar-btn full-width">
+                <span>Daftar Paket Special</span>
+                <span class="arrow-circle">→</span>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

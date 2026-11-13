@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Scan QR Tiket — The White Reflection{% endblock %}
+
+{% block content %}
+<section class="scan-wrapper">
+    <div class="section-header reveal" style="margin-bottom: 2rem;">
+        <span class="script-sub">Ticket Verification</span>
+        <h2>Scan QR Code Peserta</h2>
+    </div>
+
+    <!-- Kotak Kamera Scanner & Scan Image File -->
+    <div class="scanner-outer-box reveal delay-1">
+        <div class="scanner-inner-frame">
+            <div id="qr-reader"></div>
+        </div>
+    </div>
+
+    <!-- Kotak Input Manual -->
+    <div class="manual-box reveal delay-2">
+        <div class="manual-title">⌨️ Input Manual</div>
+        <form onsubmit="handleManualCheck(event)" class="manual-form-row">
+            <input type="text" id="manual_ticket_code" class="form-input" placeholder="Masukkan kode tiket..." required>
+            <button type="submit" class="btn-cek">✓ Cek</button>
+        </form>
+
+        <!-- Hasil Verifikasi Tiket -->
+        <div id="scan_result" class="scan-result-box"></div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Library HTML5 QR Code untuk Scan Kamera & File Gambar -->
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<script>
+    const resultBox = document.getElementById('scan_result');
+    let isProcessing = false;
+
+    async function verifyTicketCode(ticketCode) {
+        if (isProcessing || !ticketCode) return;
+        isProcessing = true;
+
+        resultBox.className = 'scan-result-box';
+        resultBox.style.display = 'block';
+        resultBox.textContent = 'Memeriksa tiket...';
+
+        try {
+            const response = await fetch('/api/verify-qr', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ qr_code: ticketCode.trim() })
+            });
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                resultBox.className = 'scan-result-box success';
+                resultBox.innerHTML = `
+                    <strong>✓ Check-In Berhasil!</strong><br>
+                    Nama: ${data.nama} (${data.paket})<br>
+                    Waktu: ${data.waktu_scan}
+                `;
+            } else {
+                resultBox.className = 'scan-result-box error';
+                resultBox.innerHTML = `<strong>✕ Gagal:</strong> ${data.message || 'Tiket tidak valid'}`;
+            }
+        } catch (err) {
+            resultBox.className = 'scan-result-box error';
+            resultBox.textContent = 'Gagal menghubungi server.';
+        } finally {
+            setTimeout(() => { isProcessing = false; }, 2000);
+        }
+    }
+
+    function handleManualCheck(e) {
+        e.preventDefault();
+        const code = document.getElementById('manual_ticket_code').value;
+        verifyTicketCode(code);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const html5QrcodeScanner = new Html5QrcodeScanner(
+            "qr-reader",
+            { fps: 10, qrbox: { width: 250, height: 250 } },
+            false
+        );
+
+        html5QrcodeScanner.render((decodedText) => {
+            verifyTicketCode(decodedText);
+        }, (errorMessage) => {
+            // Abaikan frame kosong saat scanning berlangsung
+        });
+    });
+</script>
+{% endblock %}

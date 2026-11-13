@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}The White Reflection — The White Spot X MMS{% endblock %}</title>
+
+    <!-- Google Fonts: Cormorant Garamond, Inter, dan Pinyon Script -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&family=Pinyon+Script&display=swap"
+        rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <header class="navbar">
+        <!-- Klik logo di pojok kiri atas mengarah langsung ke /login sebelum masuk ke /admin -->
+        <a href="/login" class="brand-logo" title="The White Spot X MMS">
+            <span class="brand-mark">✦</span>
+            <span>The White Spot <em>×</em> MMS</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="/" class="{% if request.path == '/' %}active{% endif %}">home</a>
+            <span class="nav-divider">/</span>
+            <a href="/about" class="{% if request.path == '/about' %}active{% endif %}">about</a>
+            <span class="nav-divider">/</span>
+            <a href="/daftar" class="{% if request.path == '/daftar' %}active{% endif %}">daftar</a>
+
+            {% if session.get('admin_logged_in') %}
+            <span class="nav-divider">/</span>
+            <a href="/admin" class="admin-nav-link {% if request.path == '/admin' %}active{% endif %}">admin</a>
+            <span class="nav-divider">/</span>
+            <a href="/scan" class="admin-nav-link {% if request.path == '/scan' %}active{% endif %}">scan qr</a>
+            <span class="nav-divider">/</span>
+            <a href="/logout" class="logout-nav-link">logout</a>
+            {% endif %}
+        </nav>
+
+        <a href="/daftar" class="nav-pill">reservasi tiket</a>
+    </header>
+
+    <!-- Konten Halaman -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Kontak Mengalir di Bagian Bawah -->
+    <footer class="flowing-footer reveal">
+        <div class="footer-script">Stay Connected</div>
+        <h3 class="footer-title">Hubungi Kami & Informasi Lebih Lanjut</h3>
+        <p class="footer-desc">
+            Jika ada kendala pendaftaran atau pertanyaan seputar seminar <em>The White Reflection</em>, silakan hubungi
+            narahubung resmi kami.
+        </p>
+
+        <div class="footer-contacts">
+            <a href="https://wa.me/628123456789" target="_blank" rel="noopener" class="contact-chip">
+                <span>WhatsApp Narahubung: <strong>Naila (08123456789)</strong></span>
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener" class="contact-chip">
+                <span>Instagram: <strong>@thewhitespot</strong></span>
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener" class="contact-chip">
+                <span>Event: <strong>@madrasahmarahshalihah</strong></span>
+            </a>
+        </div>
+
+        <p class="footer-meta">
+            © 2026 The White Spot × Event MMS (Madrasah Mar'ah Shalihah). All rights reserved.
+        </p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.12 });
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>
