@@ -12,7 +12,6 @@
     {% endif %}
     {% endwith %}
 
-    <!-- Header & Action Buttons -->
     <div class="admin-header reveal">
         <div class="admin-title-group">
             <h1 class="admin-title">Dashboard Admin</h1>
@@ -20,51 +19,49 @@
         </div>
 
         <div class="admin-top-actions">
-            <a href="/scan" class="btn-admin">📷 Buka Scanner QR</a>
-            <a href="/admin/export" class="btn-admin">📥 Export CSV</a>
+            <a href="/scan" class="btn-admin">Scan QR</a>
+            <a href="/admin/export" class="btn-admin">Export CSV</a>
             <form action="/admin/reset-hadir" method="POST"
                 onsubmit="return confirm('Reset semua status kehadiran peserta menjadi Belum Hadir?');"
                 style="display:inline;">
-                <button type="submit" class="btn-admin warning">↻ Reset Kehadiran</button>
+                <button type="submit" class="btn-admin warning">Reset Semua</button>
             </form>
             <form action="/admin/delete-all" method="POST"
                 onsubmit="return confirm('PERINGATAN: Hapus seluruh data peserta secara permanen?');"
                 style="display:inline;">
-                <button type="submit" class="btn-admin danger">🗑 Hapus Semua Peserta</button>
+                <button type="submit" class="btn-admin danger">Hapus Semua Peserta</button>
             </form>
         </div>
     </div>
 
-    <!-- 4 Kartu Statistik -->
     <div class="stats-grid reveal delay-1">
         <div class="stat-card total">
-            <div class="stat-icon">👥</div>
+            <div class="stat-icon">01 / Total</div>
             <div class="stat-number">{{ total_terdaftar }}</div>
             <div class="stat-label">Total Terdaftar</div>
         </div>
 
         <div class="stat-card hadir">
-            <div class="stat-icon">✅</div>
+            <div class="stat-icon">02 / Check-In</div>
             <div class="stat-number">{{ sudah_hadir }}</div>
             <div class="stat-label">Sudah Hadir</div>
         </div>
 
         <div class="stat-card belum">
-            <div class="stat-icon">⏳</div>
+            <div class="stat-icon">03 / Waiting</div>
             <div class="stat-number">{{ belum_hadir }}</div>
             <div class="stat-label">Belum Hadir</div>
         </div>
 
         <div class="stat-card kuota">
-            <div class="stat-icon">🎟️</div>
+            <div class="stat-icon">04 / Capacity</div>
             <div class="stat-number">{{ sisa_kuota }}</div>
             <div class="stat-label">Sisa Kuota</div>
         </div>
     </div>
 
-    <!-- Pengaturan Kuota Pendaftaran -->
     <div class="admin-panel reveal delay-2">
-        <div class="panel-title">⚙️ Pengaturan Kuota Pendaftaran</div>
+        <div class="panel-title">Pengaturan Kuota Pendaftaran</div>
         <form action="/admin/kuota" method="POST" class="quota-controls">
             <button type="button" class="quota-step-btn" onclick="adjustQuota(-10)">-10</button>
             <button type="button" class="quota-step-btn" onclick="adjustQuota(-1)">-1</button>
@@ -72,20 +69,19 @@
                 required>
             <button type="button" class="quota-step-btn" onclick="adjustQuota(1)">+1</button>
             <button type="button" class="quota-step-btn" onclick="adjustQuota(10)">+10</button>
-            <button type="submit" class="btn-admin">💾 Simpan</button>
+            <button type="submit" class="btn-admin">Simpan</button>
             <span class="quota-info-text">
                 Kuota saat ini: <strong>{{ kuota_maksimal }}</strong> (terisi {{ total_terdaftar }})
             </span>
         </form>
     </div>
 
-    <!-- Tabel Data Peserta -->
     <div class="admin-panel reveal delay-3">
-        <div class="panel-title">📋 Data Peserta Terdaftar</div>
+        <div class="panel-title">Data Peserta</div>
 
         <div class="table-search-bar">
             <input type="text" id="searchInput" onkeyup="filterTable()" class="form-input"
-                placeholder="🔍 Cari nama, email, atau no telp peserta...">
+                placeholder="Cari nama, email, atau no telp peserta...">
         </div>
 
         <div class="table-responsive">
@@ -99,8 +95,8 @@
                         <th>Umur</th>
                         <th>Jenis Tiket</th>
                         <th>Bukti TF</th>
-                        <th>Kirim QR (Email)</th>
-                        <th>Status Hadir</th>
+                        <th>Kirim QR</th>
+                        <th>Status</th>
                         <th>Waktu Scan</th>
                         <th>Actions</th>
                     </tr>
@@ -112,7 +108,7 @@
                         <td><strong>{{ p.nama }}</strong></td>
                         <td>{{ p.no_telp }}</td>
                         <td>{{ p.email }}</td>
-                        <td>{{ p.umur }} th</td>
+                        <td>{{ p.umur }}</td>
                         <td>
                             <span class="badge-ticket {% if p.paket == 'Special' %}special{% endif %}">
                                 {{ p.paket }}
@@ -121,10 +117,10 @@
                         <td>
                             {% if p.bukti_tf_url %}
                             <a href="{{ p.bukti_tf_url }}" target="_blank" rel="noopener" class="tf-link">
-                                🖼 Lihat Bukti
+                                Lihat Bukti ↗
                             </a>
                             {% else %}
-                            <span style="color: var(--text-muted); font-size: 0.8rem;">Tidak ada</span>
+                            <span style="color: var(--text-muted); font-size: 0.8rem;">-</span>
                             {% endif %}
                         </td>
                         <td>
@@ -132,16 +128,16 @@
                                 <input type="checkbox" class="qr-checkbox" id="chk-{{ p.id }}" {% if p.email_sent
                                     %}checked disabled{% endif %} onchange="sendQrEmail('{{ p.id }}', this)">
                                 <label for="chk-{{ p.id }}" id="lbl-{{ p.id }}"
-                                    style="font-size: 0.8rem; color: var(--text-muted);">
-                                    {% if p.email_sent %}Terkirim ✓{% else %}Kirim QR{% endif %}
+                                    style="font-size: 0.8rem; color: var(--text-soft);">
+                                    {% if p.email_sent %}Terkirim ✓{% else %}Kirim Email{% endif %}
                                 </label>
                             </div>
                         </td>
                         <td>
                             {% if p.status_hadir %}
-                            <span class="badge-status hadir">Sudah Hadir</span>
+                            <span class="badge-status hadir">Hadir</span>
                             {% else %}
-                            <span class="badge-status belum">Belum Hadir</span>
+                            <span class="badge-status belum">Belum</span>
                             {% endif %}
                         </td>
                         <td>{{ p.waktu_scan or '-' }}</td>
@@ -149,7 +145,7 @@
                             <form action="/admin/delete/{{ p.id }}" method="POST"
                                 onsubmit="return confirm('Hapus peserta {{ p.nama }}?');" style="display:inline;">
                                 <button type="submit" class="btn-admin danger"
-                                    style="padding: 0.35rem 0.65rem; font-size: 0.75rem;">Hapus</button>
+                                    style="padding: 0.3rem 0.7rem; font-size: 0.75rem;">Hapus</button>
                             </form>
                         </td>
                     </tr>
@@ -203,18 +199,17 @@
 
             if (response.ok && result.success) {
                 labelEl.textContent = 'Terkirim ✓';
-                labelEl.style.color = '#6ee7b7';
             } else {
                 alert('Gagal mengirim email: ' + (result.message || 'Terjadi kesalahan'));
                 checkboxEl.checked = false;
                 checkboxEl.disabled = false;
-                labelEl.textContent = 'Kirim QR';
+                labelEl.textContent = 'Kirim Email';
             }
         } catch (err) {
             alert('Terjadi kesalahan jaringan saat mengirim email.');
             checkboxEl.checked = false;
             checkboxEl.disabled = false;
-            labelEl.textContent = 'Kirim QR';
+            labelEl.textContent = 'Kirim Email';
         }
     }
 </script>

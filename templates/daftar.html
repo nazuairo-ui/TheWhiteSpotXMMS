@@ -17,7 +17,7 @@
             <div class="form-group">
                 <label class="form-label" for="email">Alamat Gmail Aktif</label>
                 <input type="email" id="email" name="email" class="form-input"
-                    placeholder="nama@gmail.com (Tiket QR akan dikirim ke sini)" required>
+                    placeholder="nama@gmail.com (Tiket QR dikirim ke sini)" required>
             </div>
 
             <div class="form-row">
@@ -29,12 +29,11 @@
 
                 <div class="form-group">
                     <label class="form-label" for="umur">Umur</label>
-                    <input type="number" id="umur" name="umur" class="form-input" placeholder="Contoh: 20" min="10"
-                        max="99" required>
+                    <input type="number" id="umur" name="umur" class="form-input" placeholder="20" min="10" max="99"
+                        required>
                 </div>
             </div>
 
-            <!-- Pilihan Paket Tiket -->
             <div class="form-group">
                 <label class="form-label">Pilihan Paket Pembelian Tiket</label>
                 <div class="package-options">
@@ -57,27 +56,25 @@
                 </div>
             </div>
 
-            <!-- Kotak Pembayaran & Total Otomatis -->
             <div class="payment-box">
-                <div class="payment-box-title">Informasi Rekening Tujuan</div>
+                <div class="payment-box-title">Informasi Pembayaran</div>
                 <div class="payment-rek">
                     Pembayaran Melalui Annisa Nafiya<br>
                     <span class="payment-rek-number">012345678 — BSI</span>
                 </div>
                 <div class="payment-total-row">
-                    <span class="payment-total-label">Total Pembayaran yang Harus Ditransfer:</span>
+                    <span class="payment-total-label">Total Pembayaran yang Harus Ditransfer</span>
                     <span id="total_display" class="payment-total-amount">Rp 30.000</span>
                 </div>
             </div>
 
-            <!-- Upload Bukti Transfer -->
             <div class="form-group">
                 <label class="form-label" for="bukti_tf">Unggah Bukti Transfer</label>
                 <input type="file" id="bukti_tf" name="bukti_tf" class="form-input" accept="image/*,.pdf" required>
             </div>
 
             <button type="submit" class="minimal-bar-btn submit-btn">
-                <span>Kirim</span>
+                <span>Kirim Pendaftaran</span>
                 <span class="arrow-circle">→</span>
             </button>
         </form>
@@ -89,8 +86,7 @@
 <script>
     function updateTotal() {
         const isSpecial = document.getElementById('paket_special').checked;
-        const totalEl = document.getElementById('total_display');
-        totalEl.textContent = isSpecial ? 'Rp 100.000' : 'Rp 30.000';
+        document.getElementById('total_display').textContent = isSpecial ? 'Rp 100.000' : 'Rp 30.000';
     }
 
     document.addEventListener("DOMContentLoaded", () => {
