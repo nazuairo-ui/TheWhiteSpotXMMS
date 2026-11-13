@@ -12,12 +12,12 @@
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Inter:wght@300;400;500;600&family=Pinyon+Script&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=3">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=4">
 </head>
 
 <body>
     <div class="editorial-shell">
-        <header class="navbar">
+        <header class="navbar {% if request.path not in ['/', '/about'] %}navbar-solid{% endif %}" id="mainNavbar">
             <!-- Klik logo di pojok kiri atas langsung mengarah ke /login sebelum /admin -->
             <a href="/login" class="brand-logo" title="The White Spot X MMS">
                 <span class="brand-mark">W</span>
@@ -44,7 +44,7 @@
             <a href="/daftar" class="nav-pill">reservasi</a>
         </header>
 
-        <main style="display: flex; flex-direction: column; gap: 18px;">
+        <main>
             {% block content %}{% endblock %}
         </main>
 
@@ -85,6 +85,16 @@
             }, { threshold: 0.1 });
 
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+            // Navbar transparan di atas sawah, dan otomatis diberi latar kaca gelap saat scroll ke area putih
+            const navbar = document.getElementById('mainNavbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 60) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
         });
     </script>
     {% block extra_js %}{% endblock %}
